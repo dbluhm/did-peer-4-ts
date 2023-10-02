@@ -38,10 +38,10 @@ const inputDocument = {
 }
 
 describe("Encode<>decode roundtrip", () => {
-  test("Encode<>decode roundtrip", () => {
-    const encoded = encode(inputDocument);
+  test("Encode<>decode roundtrip", async () => {
+    const encoded = await encode(inputDocument);
     console.log(encoded)
-    const decoded = decode(encoded);
+    const decoded = await decode(encoded);
     console.log(decoded)
     expect(decoded).toStrictEqual(inputDocument);
   });

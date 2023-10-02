@@ -1,6 +1,5 @@
 import * as bs58 from 'bs58';
 import * as varint from 'varint';
-import * as crypto from 'crypto';
 
 type Document = Record<string, any>;
 
@@ -22,13 +21,15 @@ function fromMultibaseB58(input: string): Uint8Array {
   return decoded
 }
 
-function multihashSha256(input: Uint8Array): Uint8Array {
-  const bytes = new Uint8Array(2 + sha2_bytes_256);
-  const digest = crypto.createHash('sha256').update(input).digest();
-  varint.encode(sha2_256, bytes, 0);
-  varint.encode(sha2_bytes_256, bytes, 1);
-  bytes.set(digest, 2);
-  return bytes
+async function multihashSha256(input: Uint8Array): Promise<Uint8Array> {
+  const mh = new Uint8Array(2);
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', input));
+  varint.encode(sha2_256, mh, 0);
+  varint.encode(sha2_bytes_256, mh, 1);
+  const output = new Uint8Array(mh.length + digest.length);
+  output.set(mh);
+  output.set(digest, mh.length);
+  return output
 }
 
 function toMulticodecJson(input: Document): Uint8Array {
@@ -44,16 +45,16 @@ function fromMulticodecJson(input: Uint8Array): Document {
   return JSON.parse(decoded)
 }
 
-export function encode(inputDocument: Document): string {
+export async function encode(inputDocument: Document): Promise<string> {
   const encodedDocument = encodeDocument(inputDocument);
-  const hash = hashDocument(encodedDocument);
+  const hash = await hashDocument(encodedDocument);
 
   const longForm = `did:peer:4${hash}:${encodedDocument}`;
 
   return longForm;
 }
 
-export function encodeShort(inputDocument: Document): string {
+export async function encodeShort(inputDocument: Document): Promise<string> {
   const encodedDocument = encodeDocument(inputDocument);
   const hash = hashDocument(encodedDocument);
 
@@ -77,26 +78,26 @@ function encodeDocument(document: Document): string {
   return encoded
 }
 
-function hashDocument(encodedDocument: string): string {
+async function hashDocument(encodedDocument: string): Promise<string> {
   const bytes = new TextEncoder().encode(encodedDocument);
-  const multihashed = multihashSha256(bytes);
+  const multihashed = await multihashSha256(bytes);
   return toMultibaseB58(multihashed);
 }
 
-export function resolve(did: string): Document {
-  const decodedDocument = decode(did);
+export async function resolve(did: string): Promise<Document> {
+  const decodedDocument = await decode(did);
   return contextualizeDocument(did, decodedDocument);
 }
 
-export function resolveShort(did: string): Document {
-  const decodedDocument = decode(did);
+export async function resolveShort(did: string): Promise<Document> {
+  const decodedDocument = await decode(did);
   const shortForm = longToShort(did);
   const document = contextualizeDocument(shortForm, decodedDocument);
   return document;
 }
 
-export function resolveShortFromDoc(document: Document, did: string | null): Document {
-  const longForm = encode(document);
+export async function resolveShortFromDoc(document: Document, did: string | null): Promise<Document> {
+  const longForm = await encode(document);
   if (did !== null) {
     const shortForm = longToShort(longForm);
     if (did !== shortForm) {
@@ -106,7 +107,7 @@ export function resolveShortFromDoc(document: Document, did: string | null): Doc
   return resolveShort(longForm);
 }
 
-export function decode(did: string): Document {
+export async function decode(did: string): Promise<Document> {
   if (!did.startsWith("did:peer:4")) {
     throw new Error('Invalid did:peer:4');
   }
@@ -120,7 +121,7 @@ export function decode(did: string): Document {
   }
 
   const [hash, doc] = did.slice(10).split(':')
-  if (hash !== hashDocument(doc)) {
+  if (hash !== await hashDocument(doc)) {
     throw new Error(`Hash is invalid for did: ${did}`);
   }
 
@@ -140,7 +141,7 @@ function operateOnEmbedded(callback: (document: Document) => Document): Document
 }
 
 function visitVerificationMethods(document: Document, callback: (document: Document) => Document) {
-  document.verificationMethod = document.verificationMethod.map(callback);
+  document.verificationMethod = document.verificationMethod?.map(callback);
   document.authentication = document.authentication.map(operateOnEmbedded(callback));
   document.keyAgreement = document.keyAgreement.map(operateOnEmbedded(callback));
   document.assertionMethod = document.assertionMethod.map(operateOnEmbedded(callback));

@@ -1,6 +1,6 @@
 {
   "name": "did-peer-4",
-  "module": "index.ts",
+  "module": "dist/index.js",
   "devDependencies": {
     "bun-types": "latest"
   },
@@ -9,8 +9,10 @@
   },
   "type": "module",
   "dependencies": {
+    "@types/sha.js": "^2.4.2",
     "@types/varint": "^6.0.1",
     "bs58": "^5.0.0",
+    "sha.js": "^2.4.11",
     "varint": "^6.0.0"
   }
 }

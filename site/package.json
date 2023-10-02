@@ -1,16 +1,32 @@
 {
-  "name": "did-peer-4-ts-site",
-  "module": "src/index.ts",
-  "type": "module",
-  "devDependencies": {
-    "bun-types": "latest"
+  "name": "did-peer-4-site",
+  "version": "1.0.0",
+  "description": "DID Peer 4 Resolver in Browser",
+  "main": "index.ts",
+  "scripts": {
+    "start": "webpack serve",
+    "build": "webpack build",
+    "format": "prettier --write \"src/**/*.ts\""
   },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
+  "author": "",
+  "license": "Apache-2.0",
   "dependencies": {
     "bulma": "^0.9.4",
-    "did-peer-4": "../lib",
-    "lit": "^2.8.0"
+    "did-peer-4": "file:../lib",
+    "lit": "^2.8.0",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "devDependencies": {
+    "@types/prismjs": "^1.26.1",
+    "css-loader": "^6.8.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "postcss-loader": "^7.3.3",
+    "prettier": "^3.0.3",
+    "prismjs": "^1.29.0",
+    "style-loader": "^3.3.3"
   }
 }
