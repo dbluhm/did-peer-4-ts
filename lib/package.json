@@ -7,6 +7,9 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
+  "scripts": {
+    "build": "bun build --target node --outdir dist index.ts"
+  },
   "type": "module",
   "dependencies": {
     "@types/sha.js": "^2.4.2",

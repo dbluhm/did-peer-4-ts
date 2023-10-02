@@ -47,7 +47,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'bin'),
   },
   devtool: 'source-map',
   experiments: {
@@ -56,6 +56,6 @@ module.exports = {
   mode: 'development',
   devServer: {
     compress: true,
-    port: 9000,
+    port: 9000
   }
 };

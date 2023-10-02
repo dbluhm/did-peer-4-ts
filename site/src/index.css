@@ -1,0 +1,32 @@
+#brand {
+	font-size: 200%;
+	font-weight: bold;
+	font-family: 'Roboto Mono', monospace;
+	margin-left: 1rem;
+}
+
+.navbar-end {
+	margin-right: 1rem;
+}
+
+.container {
+	margin-top: 1rem;
+}
+
+#did, #input-doc {
+	min-height: 50vh;
+	max-height: 50vh;
+}
+
+lit-code {
+	--editor-bg-color: #f5f2f0;
+	--hl-color-string:      #690;
+	--hl-color-function:    #004eff;
+	--hl-color-number:      #dd9031;
+	--hl-color-operator:    #9a6e3a;
+	--hl-color-class-name:  #78c3ca;
+	--hl-color-punctuation: #999;
+	--hl-color-property: 	#905;
+	--hl-color-keyword:     #8500ff;
+	--hl-color-comment:     #aaa;
+}

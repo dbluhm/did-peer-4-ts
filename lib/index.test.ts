@@ -1,5 +1,5 @@
 import {expect, test, describe} from "bun:test";
-import { decode, encode } from ".";
+import { decode, encode, resolve, resolveShort } from ".";
 
 const inputDocument = {
   "@context": [
@@ -37,12 +37,26 @@ const inputDocument = {
   ],
 }
 
-describe("Encode<>decode roundtrip", () => {
+describe("Encoding, decoding, and resolution", () => {
   test("Encode<>decode roundtrip", async () => {
+    const encoded = await encode(inputDocument);
+    const decoded = await decode(encoded);
+    expect(decoded).toStrictEqual(inputDocument);
+  });
+  test("Resolve long", async () => {
     const encoded = await encode(inputDocument);
     console.log(encoded)
     const decoded = await decode(encoded);
-    console.log(decoded)
     expect(decoded).toStrictEqual(inputDocument);
+    const resolved = await resolve(encoded)
+    console.log(resolved)
+  });
+  test("Resolve short", async () => {
+    const encoded = await encode(inputDocument);
+    console.log(encoded)
+    const decoded = await decode(encoded);
+    expect(decoded).toStrictEqual(inputDocument);
+    const resolved = await resolveShort(encoded)
+    console.log(resolved)
   });
 });

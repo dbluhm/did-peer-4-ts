@@ -86,13 +86,18 @@ async function hashDocument(encodedDocument: string): Promise<string> {
 
 export async function resolve(did: string): Promise<Document> {
   const decodedDocument = await decode(did);
-  return contextualizeDocument(did, decodedDocument);
+  const document = contextualizeDocument(did, decodedDocument);
+  document.alsoKnownAs = document.alsoKnownAs || [];
+  document.alsoKnownAs.push(longToShort(did));
+  return document;
 }
 
 export async function resolveShort(did: string): Promise<Document> {
   const decodedDocument = await decode(did);
   const shortForm = longToShort(did);
   const document = contextualizeDocument(shortForm, decodedDocument);
+  document.alsoKnownAs = document.alsoKnownAs || [];
+  document.alsoKnownAs.push(did);
   return document;
 }
 
@@ -153,8 +158,6 @@ function visitVerificationMethods(document: Document, callback: (document: Docum
 function contextualizeDocument(did: string, document: Document): Document {
   const contextualized = { ...document };
   contextualized.id = did;
-  contextualized.alsoKnownAs = contextualized.alsoKnownAs || [];
-  contextualized.alsoKnownAs.push(`did:peer:4${did.split(":")[1]}`);
 
   visitVerificationMethods(contextualized, (vm) => {
     if (vm.controller === undefined) {
