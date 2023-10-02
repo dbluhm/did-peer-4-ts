@@ -13,10 +13,18 @@ jobs:
       name: "Use Node.js 18"
       with:
         node-version: "18.x"
-    - name: "Install packages"
+    - name: "Setup bun"
+      uses: oven-sh/setup-bun@v1
+    - name: "Install lib deps"
+      working-directory: ./lib
+      run: bun install
+    - name: "Bundle lib"
+      working-directory: ./lib
+      run: bun run build
+    - name: "Install site packages"
       working-directory: ./site
       run: npm ci
-    - name: "Build & Pack"
+    - name: "Build & Pack site"
       working-directory: ./site
       run: npm run build
     - name: "Bundle index page"
