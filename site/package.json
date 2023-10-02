@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "bulma": "^0.9.4",
-    "did-peer-4": "../",
+    "did-peer-4": "../lib",
     "lit": "^2.8.0"
   }
 }

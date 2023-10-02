@@ -1,5 +1,5 @@
 import * as bs58 from 'bs58';
-import * as varint from 'uint8-varint';
+import * as varint from 'varint';
 import * as crypto from 'crypto';
 
 type Document = Record<string, any>;
@@ -40,7 +40,7 @@ function toMulticodecJson(input: Document): Uint8Array {
 }
 
 function fromMulticodecJson(input: Uint8Array): Document {
-  const decoded = new TextDecoder().decode(input.slice(1));
+  const decoded = new TextDecoder().decode(input.slice(2));
   return JSON.parse(decoded)
 }
 

@@ -9,7 +9,8 @@
   },
   "type": "module",
   "dependencies": {
+    "@types/varint": "^6.0.1",
     "bs58": "^5.0.0",
-    "uint8-varint": "^2.0.1"
+    "varint": "^6.0.0"
   }
 }
