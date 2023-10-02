@@ -1,6 +1,7 @@
 import * as m from "mithril"
 import {encode, decode, resolve, resolveShort} from "did-peer-4"
 import JSONEditor from "./json-editor"
+import CopyButton from "./copy-button"
 import * as Prism from "prismjs"
 
 import "bulma/css/bulma.css"
@@ -82,7 +83,13 @@ class App implements m.ClassComponent {
         m(".columns", [
           m(".column.is-half",
             m("div.field", [
-              m("label.label", "DID Input"),
+              m("label.label", [
+                "DID Input",
+                m(CopyButton, {
+                  title: "Copy DID",
+                  content: this.did,
+                })
+              ]),
               m("div.control", 
                 m("textarea#did.textarea", {
                   value: this.did,
@@ -99,7 +106,13 @@ class App implements m.ClassComponent {
            ),
            m(".column.is-half",
              m("div.field", [
-               m("label.label", "Input Document"),
+              m("label.label", [
+                "Input Document",
+                m(CopyButton, {
+                  title: "Copy Input Document",
+                  content: this.inputDoc,
+                })
+              ]),
                m("div.control", 
                  m(JSONEditor, {
                    id: "input-doc",
@@ -118,7 +131,13 @@ class App implements m.ClassComponent {
             )
         ]),
         m("div.field", [
-          m("label.label", "Resolved Long Form"),
+          m("label.label", [
+            "Resolved Long Form",
+            m(CopyButton, {
+              title: "Copy Resolve Long Form",
+              content: this.longForm,
+            })
+          ]),
           m("pre",
             m("code", {
               class: "language-json",
@@ -126,7 +145,13 @@ class App implements m.ClassComponent {
            )
         ]),
         m("div.field", [
-          m("label.label", "Resolved Short Form"),
+          m("label.label", [
+            "Resolved Short Form",
+            m(CopyButton, {
+              title: "Copy Resolve Short Form",
+              content: this.shortForm,
+            })
+          ]),
           m("pre",
             m("code", {
               class: "language-json",
