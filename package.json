@@ -1,0 +1,15 @@
+{
+  "name": "did-peer-4-ts",
+  "module": "index.ts",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "bs58": "^5.0.0",
+    "uint8-varint": "^2.0.1"
+  }
+}
