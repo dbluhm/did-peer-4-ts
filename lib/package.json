@@ -1,5 +1,5 @@
 {
-  "name": "did-peer-4-ts",
+  "name": "did-peer-4",
   "module": "index.ts",
   "devDependencies": {
     "bun-types": "latest"

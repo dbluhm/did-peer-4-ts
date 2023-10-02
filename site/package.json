@@ -1,0 +1,16 @@
+{
+  "name": "did-peer-4-ts-site",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "bulma": "^0.9.4",
+    "did-peer-4": "../",
+    "lit": "^2.8.0"
+  }
+}
