@@ -118,7 +118,6 @@ class App implements m.ClassComponent {
                    id: "input-doc",
                    content: this.inputDoc,
                    changed: ({detail: code}) => {
-                     console.log("changed called")
                      this.inputDoc = code
                      if (this.docTimeout) {
                        clearTimeout(this.docTimeout)

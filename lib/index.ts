@@ -146,12 +146,24 @@ function operateOnEmbedded(callback: (document: Document) => Document): Document
 }
 
 function visitVerificationMethods(document: Document, callback: (document: Document) => Document) {
-  document.verificationMethod = document.verificationMethod?.map(callback);
-  document.authentication = document.authentication.map(operateOnEmbedded(callback));
-  document.keyAgreement = document.keyAgreement.map(operateOnEmbedded(callback));
-  document.assertionMethod = document.assertionMethod.map(operateOnEmbedded(callback));
-  document.capabilityDelegation = document.capabilityDelegation.map(operateOnEmbedded(callback));
-  document.capabilityInvocation = document.capabilityInvocation.map(operateOnEmbedded(callback));
+  if (document.verificationMethod) {
+    document.verificationMethod = document.verificationMethod?.map(callback);
+  }
+  if (document.authentication) {
+    document.authentication = document.authentication.map(operateOnEmbedded(callback));
+  }
+  if (document.assertionMethod) {
+    document.assertionMethod = document.assertionMethod.map(operateOnEmbedded(callback));
+  }
+  if (document.keyAgreement) {
+    document.keyAgreement = document.keyAgreement.map(operateOnEmbedded(callback));
+  }
+  if (document.capabilityDelegation) {
+    document.capabilityDelegation = document.capabilityDelegation.map(operateOnEmbedded(callback));
+  }
+  if (document.capabilityInvocation) {
+    document.capabilityInvocation = document.capabilityInvocation.map(operateOnEmbedded(callback));
+  }
   return document
 }
 
