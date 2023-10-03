@@ -46,7 +46,6 @@ class App implements m.ClassComponent {
     } catch(e) {
       this.errorMessage = e.message || "Error resolving DID."
     }
-    Prism.highlightAll()
     m.redraw()
   }
 
@@ -63,8 +62,25 @@ class App implements m.ClassComponent {
     } catch(e) {
       this.errorMessage = e.message || "Error resolving DID."
     }
-    Prism.highlightAll()
     m.redraw()
+  }
+
+  onupdate() {
+    // Use more specific Prism highlighting
+    console.log("onupdate")
+    console.log(this.longForm)
+    console.log(this.shortForm)
+    const longFormElement = document.querySelector(".long-form-code");
+    if (longFormElement) {
+      longFormElement.innerHTML = this.longForm;
+      Prism.highlightElement(longFormElement);
+    }
+
+    const shortFormElement = document.querySelector(".short-form-code");
+    if (shortFormElement) {
+      shortFormElement.innerHTML = this.shortForm;
+      Prism.highlightElement(shortFormElement);
+    }
   }
 
   view(vnode: m.Vnode) {
@@ -90,7 +106,7 @@ class App implements m.ClassComponent {
                   content: this.did,
                 })
               ]),
-              m("div.control", 
+              m("div.control",
                 m("textarea#did.textarea", {
                   value: this.did,
                   oninput: (e: Event) => {
@@ -113,7 +129,7 @@ class App implements m.ClassComponent {
                   content: this.inputDoc,
                 })
               ]),
-               m("div.control", 
+               m("div.control",
                  m(JSONEditor, {
                    id: "input-doc",
                    content: this.inputDoc,
@@ -138,8 +154,7 @@ class App implements m.ClassComponent {
             })
           ]),
           m("pre",
-            m("code", {
-              class: "language-json",
+            m("code.language-json.long-form-code", {
             }, this.longForm)
            )
         ]),
@@ -152,8 +167,7 @@ class App implements m.ClassComponent {
             })
           ]),
           m("pre",
-            m("code", {
-              class: "language-json",
+            m("code.language-json.short-form-code", {
             }, this.shortForm)
            )
         ])
