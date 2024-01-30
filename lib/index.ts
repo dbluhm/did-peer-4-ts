@@ -56,7 +56,7 @@ export async function encode(inputDocument: Document): Promise<string> {
 
 export async function encodeShort(inputDocument: Document): Promise<string> {
   const encodedDocument = encodeDocument(inputDocument);
-  const hash = hashDocument(encodedDocument);
+  const hash = await hashDocument(encodedDocument);
 
   const shortForm = `did:peer:4${hash}`;
 

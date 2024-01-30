@@ -43,10 +43,9 @@ export default class JSONEditor
       id: this.id,
       language: "json",
       linenumbers: true,
-      oncreate: (vnode) => {
+      oncreate: vnode => {
         vnode.dom.addEventListener("update", this.changed)
-      }
+      },
     })
   }
 }
-
