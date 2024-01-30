@@ -1,27 +1,27 @@
 import * as m from "mithril"
 
-class CopyButtonAttributes {
+class LinkButtonAttributes {
   title: string
-  content: string
+  ref: string
 }
 
-export default class CopyButton
-  implements m.ClassComponent<CopyButtonAttributes>
+export default class LinkButton
+  implements m.ClassComponent<LinkButtonAttributes>
 {
   private title: string
-  private content: string
+  private ref: string
   private copied: boolean = false
 
-  oninit(vnode: m.Vnode<CopyButtonAttributes, this>) {
-    this.content = vnode.attrs.content
+  oninit(vnode: m.Vnode<LinkButtonAttributes, this>) {
+    this.ref = vnode.attrs.ref
     this.title = vnode.attrs.title
   }
 
   onbeforeupdate(
-    vnode: m.Vnode<CopyButtonAttributes, this>,
-    old: m.VnodeDOM<CopyButtonAttributes, this>
+    vnode: m.Vnode<LinkButtonAttributes, this>,
+    old: m.VnodeDOM<LinkButtonAttributes, this>
   ) {
-    this.content = vnode.attrs.content
+    this.ref = vnode.attrs.ref
     return true
   }
 
@@ -45,16 +45,16 @@ export default class CopyButton
 
   view() {
     return m(
-      "button.button.is-small.is-white.is-pulled-right",
+      "button.button.is-small.is-white",
       {
-        onclick: () => this.copyToClipboard(this.content),
+        onclick: () => this.copyToClipboard(this.ref),
         class: this.copied ? "is-success" : "",
         title: this.title,
       },
       m(
         "span.icon",
         m("i", {
-          class: this.copied ? "fa-solid fa-check" : "fa-solid fa-copy",
+          class: this.copied ? "fa-solid fa-check" : "fa-solid fa-link",
         })
       )
     )
